@@ -62,7 +62,7 @@
     },
 
 
-/*
+    /*
          _             _     _
      ___| |_ __ _ _ __| |_  | |__   ___ _ __ ___ _
     / __| __/ _` | '__| __| | '_ \ / _ \ '__/ _ (_)
@@ -79,12 +79,66 @@
     //
     // test if a specific row on this board contains a conflict
     hasRowConflictAt: function(rowIndex) {
-      return false; // fixme
+      // console.log('here', this.attributes[0]);
+      // console.log('rowindex', rowIndex);
+      var count = 0;
+      for (var i = 0; i < this.attributes[rowIndex].length; i++) {
+        if ((this.attributes[rowIndex])[i] === 1) {
+          count++;
+        }
+      }
+      if (count > 1) {
+        return true;
+      }
+      return false;
     },
 
     // test if any rows on this board contain conflicts
     hasAnyRowConflicts: function() {
-      return false; // fixme
+      //[0, 0, 0, 0]
+      //look at every row
+      //if even 1 row has conflict, return true
+      //base case is if n === 1
+      //n - 1
+
+      // if (n === 1) {
+      //   return false;
+      // }
+
+      // var rowConflict = function(n) {
+
+      //   rowConflict(n - 1);
+      // };
+
+      // console.log();
+      var rows = this.attributes.n;
+      // console.log('this.attributes.n', this.attributes.n);
+      // console.log('this.attributes', this.attributes);
+      // console.log('this.attributes[rows - 1]', this.attributes[rows - 1]);
+      // this.hasConflictAt
+      // // // return false; // fixme
+      // while (rows > 1) {
+      //   var count = 0;
+      //   for (var i = 0; i < this.attributes[rows - 1].length - 1; i++) {
+      //     if ((this.attributes[rows - 1])[i] === 1) {
+      //       count++;
+      //       console.log('Count', count);
+      //     }
+      //     rows--;
+      //     // //console.log('Rows', rows);
+      //   }
+      //   if (count > 1) {
+      //     return true;
+      //   }
+      // }
+      // return false;
+      while (rows > 1) {
+        if (this.hasRowConflictAt(rows - 1) === true) {
+          return true;
+        }
+        rows--;
+      }
+      return false;
     },
 
 
@@ -94,11 +148,29 @@
     //
     // test if a specific column on this board contains a conflict
     hasColConflictAt: function(colIndex) {
+      //console.log(this.attributes);
+      var count = 0;
+      var rowNum = this.attributes.n;
+      for (var i = 0; i < rowNum - 1; i++) {
+        if (this.attributes[i][colIndex] === 1) {
+          count++;
+        }
+      }
+      if (count > 1) {
+        return true;
+      }
       return false; // fixme
     },
 
     // test if any columns on this board contain conflicts
     hasAnyColConflicts: function() {
+      var colNum = this.attributes.n;
+      while (colNum >= 1) {
+        if (this.hasColConflictAt(colNum - 1) === true) {
+          return true;
+        }
+        colNum--;
+      }
       return false; // fixme
     },
 
