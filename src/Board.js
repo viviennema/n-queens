@@ -151,7 +151,7 @@
       //console.log(this.attributes);
       var count = 0;
       var rowNum = this.attributes.n;
-      for (var i = 0; i < rowNum - 1; i++) {
+      for (var i = 0; i < rowNum; i++) {
         if (this.attributes[i][colIndex] === 1) {
           count++;
           //console.log('count', count);
