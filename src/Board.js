@@ -249,7 +249,7 @@
       var col = minorDiagonalColumnIndexAtFirstRow;
       var row = 0;
 
-      while (col > 0) {
+      while (col >= 0) {
         if (this._isInBounds(col, row) && this.attributes[row][col] === 1) {
           count++;
         }

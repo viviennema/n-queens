@@ -65,6 +65,7 @@ window.countNRooksSolutions = function(n) {
         if (rookCount === n) {
           solutionCount++;
         }
+
         //remove piece;
         helper(row + 1);
         rookCount--;
@@ -83,7 +84,7 @@ window.countNRooksSolutions = function(n) {
 // return a matrix (an array of arrays) representing a single nxn chessboard, with n queens placed such that none of them can attack each other
 window.findNQueensSolution = function(n) {
   var board = new Board({n: n});
-  //console.log(board);
+
   var solution = [];
   var queenCount = 0;
 
@@ -91,20 +92,29 @@ window.findNQueensSolution = function(n) {
     if (row === n) {
       return;
     }
+    if (solution.length > 0) {
+      return;
+    }
     //test each square in the row
     for (var col = 0; col < n; col++) {
       //add piece
-      //console.log('col', col);
+      if (solution.length > 0) {
+        break;
+      }
       board.togglePiece(row, col);
 
-      //console.log(board.hasAnyRooksConflicts());
       if (!board.hasAnyQueensConflicts()) {
         queenCount++;
         if (queenCount === n) {
-          break;
+          solution = board.rows();
+          return;
         }
+
         //remove piece;
         helper(row + 1);
+        if (solution.length > 0) {
+          break;
+        }
         queenCount--;
       }
 
@@ -113,9 +123,8 @@ window.findNQueensSolution = function(n) {
     }
   };
   helper(0);
-
-  for (var key in board.changed) {
-    solution.push(board.changed[key]);
+  if (solution.length === 0) {
+    solution = board.rows();
   }
 
   console.log('Single solution for ' + n + ' queens:', JSON.stringify(solution));
@@ -124,14 +133,19 @@ window.findNQueensSolution = function(n) {
 
 // return the number of nxn chessboards that exist, with n queens placed such that none of them can attack each other
 window.countNQueensSolutions = function(n) {
-  var board = new Board ({n: n});
-  console.log('board', board);
   var solutionCount = 0;
-  var queenCount = 0;
+  var board = new Board ({n: n});
+  //console.log('board', board);
+  //var queenCount = 0;
+
+  if (n === 2 || n === 3) {
+    return solutionCount;
+  }
 
   //check one row
   var helper = function(row) {
     if (row === n) {
+      solutionCount++;
       return;
     }
     //test each square in the row
@@ -140,16 +154,15 @@ window.countNQueensSolutions = function(n) {
       board.togglePiece(row, col);
 
       //console.log(board.hasAnyQueensConflicts());
-      if (board.hasAnyQueensConflicts() === false) {
-        queenCount++;
-        if (queenCount === n) {
-          solutionCount++;
-        }
+      if (!board.hasAnyQueensConflicts()) {
+        //queenCount++;
+        // if (queenCount === n) {
+        //   solutionCount++;
+        // }
         //remove piece;
         helper(row + 1);
-        queenCount--;
       }
-
+      //queenCount--;
       board.togglePiece(row, col);
     }
   };
